@@ -1,31 +1,67 @@
 # Flex.js
-Flex.js é uma pequena biblioteca JavaScript para atualizar automaticamente o conteúdo do DOM (Document Object Model) baseado em mudanças de estado. Ela permite que você crie elementos de UI declarativos e simplesmente ligue-os a um estado interno. Sempre que o estado é atualizado, a biblioteca atualiza automaticamente o conteúdo do DOM correspondente.
+Flex.js is a small JavaScript library for automatically updating the content of the DOM (Document Object Model) based on state changes. It allows you to create declarative UI elements and simply bind them to an internal state. Whenever the state is updated, the library automatically updates the corresponding DOM content.
 
-Como funciona
-Flex.js usa a API de Proxy do JavaScript para rastrear mudanças de estado e atualizar o conteúdo do DOM correspondente sempre que o estado é atualizado. Ele analisa o conteúdo do DOM em busca de tokens de modelo declarativos, que correspondem a chaves de estado, e atualiza esses tokens sempre que o estado correspondente é atualizado.
+How it works
+Flex.js uses the JavaScript Proxy API to track state changes and update the corresponding DOM content whenever the state is updated. It parses the DOM content for declarative model tokens, which correspond to properties in the state object. When a property in the state object changes, the library updates the DOM content that corresponds to the affected model tokens.
 
-Como usar
-Para usar Flex.js, basta importá-lo em seu arquivo JavaScript e criar uma instância da classe Flex. Você deve passar um objeto de opções com a chave el contendo o seletor do elemento DOM que deseja observar, e a chave state contendo um objeto de estado inicial.
+Usage
+Instantiating Flex
+To create a new instance of Flex, simply call the constructor with an options object that defines the el, state, and methods properties.
 
-Por exemplo, para criar uma instância de Flex.js que observe o elemento com o ID app e um estado inicial com as chaves foo e bar:
-
-```js
-
-import Flex from './flex.js';
-
+```javascript
 const flex = new Flex({
   el: '#app',
   state: {
-    foo: 'Hello',
-    bar: 'world!',
+    greeting: 'Hello, World!'
   },
+  methods: {
+    sayHi() {
+      alert(this.state.greeting);
+    }
+  }
 });
 ```
-Em seu HTML, você pode usar tokens de modelo declarativos, que correspondem às chaves de estado, usando a sintaxe {{key}}. Por exemplo:
+Defining a State Object
+The state object defines the initial state of your application. Any properties in the state object can be used as model tokens in your DOM content.
+
+```javascript
+const state = {
+  greeting: 'Hello, World!',
+  count: 0,
+  items: [
+    'Apples',
+    'Bananas',
+    'Oranges'
+  ]
+};
+```
+Updating the State Object
+To update the state object, simply modify the properties of the state object.
+
+```
+flex.state.greeting = 'Hello, Flex.js!';
+```
+Defining Model Tokens
+Model tokens are used to bind the content of a DOM element to a property in the state object. They are defined in your HTML content using the {{propertyName}} syntax.
 
 ```html
-<div id="app">
-  <h1>{{foo}} {{bar}}</h1>
-  <p>{{foo}} {{bar}} is a common greeting.</p>
+<div>
+  {{greeting}}
 </div>
+```
+Using Methods
+Flex.js also allows you to define methods that can be called in response to DOM events. These methods are defined in the methods object, which is passed as an option when creating a new instance of Flex.
+
+```javascript
+const methods = {
+  handleClick() {
+    this.state.count++;
+  }
+};
+```
+In your HTML content, you can call these methods using the :eventName syntax.
+
+
+```html
+<button :click="handleClick">Increment</button>
 ```
