@@ -10,7 +10,7 @@
     <div id="app">
         <h1>{{foo}} {{bar}}</h1>
         <p>{{foo}} {{bar}} is a common greeting.</p>
-        <button :click="click2">Clique em mim</button>
+        <button :click="click2">Clique em mim {{count}}</button>
     </div>
     <script src="../build/flex.min.js"></script>
     <script>
@@ -19,10 +19,12 @@
             state: {
                 foo: 'Hello',
                 bar: 'world!',
+                count: 0
             },
             methods: {
                 click2(){
-                    this.state.foo = 'Oi'
+                    this.state.foo = 'NotHello'
+                    this.state.count++
                     console.log(this.state.foo)
                 }
             }
