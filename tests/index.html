@@ -11,6 +11,9 @@
         <h1>{{foo}} {{bar}}</h1>
         <p>{{foo}} {{bar}} is a common greeting.</p>
         <button :click="click2">Clique em mim {{ count }}</button>
+        <ul>
+            <li f-each="fruta in frutas">[fruta]</li>
+        </ul>
 
     </div>
     <script src="../build/flex.min.js"></script>
@@ -21,7 +24,12 @@
                 foo: 'Hello',
                 bar: 'world!',
                 count: 0,
-                date: new Date()
+                date: new Date(),
+                frutas: [
+                'Apples',
+                'Bananas',
+                'Oranges'
+                ]
             },
             methods: {
                 click2(){
