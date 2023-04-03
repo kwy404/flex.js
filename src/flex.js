@@ -27,6 +27,7 @@ class Flex {
         });
     }
 
+
     start_app() {
         this.elements.forEach((element, index) => {
             if (element.nodeType === Node.TEXT_NODE) {
@@ -99,25 +100,25 @@ class Flex {
 
     methods_({ methods }) {
         const clickElems = Array.from(document.querySelectorAll(`${this.el} *`));
-        const nodeOld = Array.from(document.querySelectorAll(`${this.el} > *`));
+        const nodeOld = Array.from(document.querySelectorAll(`${this.el} > *`)); // correção aqui
         const flex = this;
-      
         nodeOld.forEach((elem, index) => {
-          const attrs = elem.attributes;
-          for (let i = 0; i < attrs.length; i++) {
-            const attr = attrs[i];
-            const methodName = attr.name;
-            const attrMethod = methodName.replace(':', '');
-            if (methodName && methodName[0] === ':') {
-              const methodName_ = elem.getAttribute(methodName);
-              clickElems[index].addEventListener(attrMethod, function () {
-                if (typeof methods[methodName_] === 'function') {
-                  methods[methodName_].call(flex);
+            const attrs = elem.attributes;
+            for (let i = 0; i < attrs.length; i++) {
+                const attr = attrs[i];
+                const methodName = attr.name;
+                const attrMethod = methodName.replace(':', '');
+                if (methodName && methodName[0] === ':') {
+                    const methodName_ = elem.getAttribute(methodName);
+                    clickElems[index].addEventListener(attrMethod, function() {
+                        if (typeof methods[methodName_] === 'function') {
+                            methods[methodName_].call(flex);
+                        }
+                    });
+                    elem.removeAttribute(methodName);
+                    elem.cloneNode(true);
                 }
-              });
-              elem.removeAttribute(methodName);
             }
-          }
         });
       
         const elemsWithEach = Array.from(document.querySelectorAll(`${this.el} [f-each]`));
@@ -134,7 +135,7 @@ class Flex {
               if (innerElem) {
                 innerElem.textContent = data[item];
               }
-              clone.textContent =collectionArray[index];
+              clone.textContent = collectionArray[index]
               fragment.appendChild(clone);
             });
             elem.parentNode.replaceChild(fragment, elem);

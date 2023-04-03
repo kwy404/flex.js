@@ -1,31 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flex</title>
-</head>
 <body>
+    <head>
+        <title>?</title>
+    </head>
     <div id="app">
-        <h1>{{foo}} {{bar}}</h1>
-        <p>{{foo}} {{bar}} is a common greeting.</p>
-        <button :click="click2">Clique em mim {{ count }}</button>
-        <ul>
-            <li f-each="fruta in frutas">[fruta]</li>
+        <h1 f-text="title"></h1>
+        <h3>{{ subtitle }}</h3>
+        <ul f-each="item in items">
+            <li></li>
         </ul>
-
     </div>
     <script src="../build/flex.min.js"></script>
     <script>
         const app = new Flex({
             el: '#app',
             state: {
-                foo: 'Hello',
-                bar: 'world!',
-                count: 0,
-                date: new Date(),
-                frutas: [
+                title: 'Minha lista de compras',
+                subtitle: 'Frutas',
+                items: [
                 'Apples',
                 'Bananas',
                 'Oranges'
