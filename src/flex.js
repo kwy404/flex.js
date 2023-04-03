@@ -27,7 +27,6 @@ class Flex {
         });
     }
 
-
     start_app() {
         this.elements.forEach((element, index) => {
             if (element.nodeType === Node.TEXT_NODE) {
