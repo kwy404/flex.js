@@ -24,7 +24,7 @@ const flex = new Flex({
 Em seu HTML, você pode usar tokens de modelo declarativos, que correspondem às chaves de estado, usando a sintaxe {{key}}. Por exemplo:
 
 ```html
-<div>
+<div id="app">
   <h1>{{foo}} {{bar}}</h1>
   <p>{{foo}} {{bar}} is a common greeting.</p>
 </div>

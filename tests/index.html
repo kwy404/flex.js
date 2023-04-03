@@ -8,26 +8,25 @@
 </head>
 <body>
     <div id="app">
-        {{ hello }}
-        <h1>
-            {{ hello }}
-        </h1>
-        <div>
-            <h1>
-                {{ hello }}
-            </h1>
-        </div>
+        <h1>{{foo}} {{bar}}</h1>
+        <p>{{foo}} {{bar}} is a common greeting.</p>
+        <button :click="click2">Clique em mim</button>
     </div>
     <script src="../build/flex.min.js"></script>
     <script>
         const app = new Flex({
+            el: '#app',
             state: {
-                hello: 'Hello Flex'
+                foo: 'Hello',
+                bar: 'world!',
             },
             methods: {
-                
+                click2(){
+                    this.state.foo = 'Oi'
+                    console.log(this.state.foo)
+                }
             }
-        })
+        });
     </script>
 </body>
 </html>

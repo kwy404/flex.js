@@ -2,7 +2,8 @@
 class Flex {
     constructor({
       el = "html",
-      state = {}
+      state = {},
+      methods = {}
     }) {
       this.parse = new parse_();
       this.el = el;
@@ -17,6 +18,7 @@ class Flex {
         (element) => element.childNodes.length && /\S/.test(element.textContent)
       );
       this.start_app();
+      this.methods_({ methods });
     }
   
     start_app() {
@@ -26,7 +28,10 @@ class Flex {
           if (tokens) {
             tokens.forEach((token) => {
               if (token.key) {
-                element.textContent = this.state[token.key] ? this.state[token.key] : 'undefined'
+                element.textContent = element.textContent.replace(
+                    token.text,
+                    this.state[token.key]
+                  );
               }
             });
           }
@@ -37,7 +42,10 @@ class Flex {
               if (tokens) {
                 tokens.forEach((token) => {
                   if (token.key) {
-                    childNode.textContent = this.state[token.key] ? this.state[token.key] : 'undefined'
+                    childNode.textContent = childNode.textContent.replace(
+                        token.text,
+                        this.state[token.key]
+                    );
                   }
                 });
               }
@@ -80,5 +88,29 @@ class Flex {
         }
       });
     }
+
+    methods_({ methods }) {
+        const clickElems = Array.from(document.querySelectorAll(`${this.el} *`));
+        const flex = this;
+        clickElems.forEach((elem) => {
+          const attrs = elem.attributes;
+          for (let i = 0; i < attrs.length; i++) {
+            const attr = attrs[i];
+            const methodName = attr.name;
+            const attrMethod = methodName.replace(':', '');
+            if (methodName && methodName[0] === ':') {
+              const methodName_ = elem.getAttribute(methodName);
+              elem.addEventListener(attrMethod, function () {
+                if (typeof methods[methodName_] === 'function') {
+                  methods[methodName_].call(flex);
+                }
+              });
+              elem.removeAttribute(methodName);
+              elem.cloneNode(true);
+            }
+          }
+        });
+      }
+      
   }
   
