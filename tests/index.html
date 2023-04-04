@@ -1,34 +1,37 @@
-<body>
-    <head>
-        <title>?</title>
-    </head>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Flex Example</title>
+  </head>
+  <body>
     <div id="app">
-        <h1 f-text="title"></h1>
-        <h3>{{ subtitle }}</h3>
-        <ul f-each="item in items">
-            <li></li>
-        </ul>
-    </div>
+        <h1>{{ title }}</h1>
+        <h2>{{ message }}</h2>
+        <button :click="chanceTitle">Chance Title</button>
+    </div>     
     <script src="../build/flex.min.js"></script>
     <script>
-        const app = new Flex({
+        const myApp = FlexInstance.create({
             el: '#app',
             state: {
-                title: 'Minha lista de compras',
-                subtitle: 'Frutas',
-                items: [
-                'Apples',
-                'Bananas',
-                'Oranges'
-                ]
+                title: 'My Application',
+                message: 'Hello World!'
             },
             methods: {
-                click2(){
-                    this.state.count++
-                    console.log(this.state.foo)
+                logMessage: function() {
+                    console.log(this.state.message);
+                },
+                chanceTitle(){
+                    this.state.title = "Hello, Flex"
                 }
             }
         });
+
+        //Chance title
+        myApp.getInstance().state.title = 'New Title'; // Changes the title in the DOM
+        // Changes the message in the DOM
+        myApp.getInstance().state.message = 'New Message'; 
     </script>
-</body>
+  </body>
 </html>

@@ -1,67 +1,62 @@
-# Flex.js
-Flex.js is a small JavaScript library for automatically updating the content of the DOM (Document Object Model) based on state changes. It allows you to create declarative UI elements and simply bind them to an internal state. Whenever the state is updated, the library automatically updates the corresponding DOM content.
+# Flex - Singleton Implementation
+This is a JavaScript implementation of a singleton object that binds data to elements in the DOM using a simple syntax.
 
 How it works
-Flex.js uses the JavaScript Proxy API to track state changes and update the corresponding DOM content whenever the state is updated. It parses the DOM content for declarative model tokens, which correspond to properties in the state object. When a property in the state object changes, the library updates the DOM content that corresponds to the affected model tokens.
+The FlexInstance object creates a Flex object that handles data binding to elements in the DOM. The Flex object is created using a createInstance function that takes an options object with the following properties:
 
-Usage
-Instantiating Flex
-To create a new instance of Flex, simply call the constructor with an options object that defines the el, state, and methods properties.
+el: the selector for the root element to which data should be bound (default is 'html').
+state: an object containing the initial state of the application.
+methods: an object containing methods that can be called by bindings in the DOM.
+The Flex object uses two helper functions:
 
-```javascript
-const flex = new Flex({
-  el: '#app',
-  state: {
-    greeting: 'Hello, World!'
-  },
-  methods: {
-    sayHi() {
-      alert(this.state.greeting);
-    }
-  }
-});
-```
-Defining a State Object
-The state object defines the initial state of your application. Any properties in the state object can be used as model tokens in your DOM content.
+parseText: a function that parses text and finds bindings using the syntax {{variableName}}.
+parseHTML: a function that parses HTML and returns the first element found.
+The Flex object creates a proxy object to observe changes to the state, and it finds elements in the DOM and binds data to them using the startApp method. The updateElements method updates elements that depend on changed state properties. The setupMethods method sets up methods on the Flex object that can be called by bindings in the DOM.
 
-```javascript
-const state = {
-  greeting: 'Hello, World!',
-  count: 0,
-  items: [
-    'Apples',
-    'Bananas',
-    'Oranges'
-  ]
-};
-```
-Updating the State Object
-To update the state object, simply modify the properties of the state object.
+How to use
+To use FlexInstance, simply create a Flex object using the getInstance method of the FlexInstance singleton. You can then use the state and methods properties of the Flex object to bind data and create methods for your application.
 
-```
-flex.state.greeting = 'Hello, Flex.js!';
-```
-Defining Model Tokens
-Model tokens are used to bind the content of a DOM element to a property in the state object. They are defined in your HTML content using the {{propertyName}} syntax.
+Here is an example usage:
 
 ```html
-<div>
-  {{greeting}}
-</div>
-```
-Using Methods
-Flex.js also allows you to define methods that can be called in response to DOM events. These methods are defined in the methods object, which is passed as an option when creating a new instance of Flex.
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Flex Example</title>
+  </head>
+  <body>
+    <div id="app">
+        <h1>{{ title }}</h1>
+        <h2>{{ message }}</h2>
+        <button :click="chanceTitle">Chance Title</button>
+    </div>     
+    <script src="../build/flex.min.js"></script>
+    <script>
+        const myApp = FlexInstance.create({
+            el: '#app',
+            state: {
+                title: 'My Application',
+                message: 'Hello World!'
+            },
+            methods: {
+                logMessage: function() {
+                    console.log(this.state.message);
+                },
+                chanceTitle(){
+                    this.state.title = "Hello, Flex"
+                }
+            }
+        });
 
-```javascript
-const methods = {
-  handleClick() {
-    this.state.count++;
-  }
-};
-```
-In your HTML content, you can call these methods using the :eventName syntax.
+        //Chance title
+        myApp.getInstance().state.title = 'New Title'; // Changes the title in the DOM
+        // Changes the message in the DOM
+        myApp.getInstance().state.message = 'New Message'; 
+    </script>
+  </body>
+</html>
 
-
-```html
-<button :click="handleClick">Increment</button>
 ```
+License
+This implementation is licensed under the MIT license.
