@@ -9,7 +9,7 @@ const FlexInstance = (function() {
     }) {
         /* Function to parse text and find bindings */
         function parseText() {
-            const BINDING_RE = /\{\{(.+?)\}\}/;
+            const BINDING_RE = /\{(.+?)\}/;
             return {
                 text: function(text) {
                     if (!BINDING_RE.test(text)) return null;
@@ -143,8 +143,8 @@ const FlexInstance = (function() {
                     for (let i = 0; i < attrs.length; i++) {
                         const attr = attrs[i];
                         const methodName = attr.name;
-                        const attrMethod = methodName.replace(':', '');
-                        if (methodName && methodName[0] === ':') {
+                        const attrMethod = methodName.replace('@', '');
+                        if (methodName && methodName[0] === '@') {
                             const methodName_ = elem.getAttribute(methodName);
                             clickElems[index].addEventListener(attrMethod, function() {
                                 if (typeof methods[methodName_] === 'function') {
