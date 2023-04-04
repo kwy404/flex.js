@@ -27,9 +27,9 @@ Here is an example usage:
   </head>
   <body>
     <div id="app">
-        <h1>{{ title }}</h1>
-        <h2>{{ message }}</h2>
-        <button :click="chanceTitle">Chance Title</button>
+        <h1>{ title }</h1>
+        <h2>{ message }</h2>
+        <button @click="chanceTitle">Chance Title</button>
     </div>     
     <script src="../build/flex.min.js"></script>
     <script>
@@ -37,7 +37,7 @@ Here is an example usage:
             el: '#app',
             state: {
                 title: 'My Application',
-                message: 'Hello World!'
+                message: 'Message'
             },
             methods: {
                 logMessage: function() {
@@ -52,11 +52,10 @@ Here is an example usage:
         //Chance title
         myApp.getInstance().state.title = 'New Title'; // Changes the title in the DOM
         // Changes the message in the DOM
-        myApp.getInstance().state.message = 'New Message'; 
+        myApp.getInstance().state.message = 'I love ❤️ Flex'; 
     </script>
   </body>
 </html>
-
 ```
 License
 This implementation is licensed under the MIT license.
