@@ -13,7 +13,7 @@
       <button @click="addFruta">Adiconar fruta</button>
       <ul>
         <li *each="fruta in frutas">
-          [ fruta ] comprar isso {count}
+          {nome} pediu para comprar esta [ fruta ]
         </li>
       </ul>
       
@@ -26,6 +26,7 @@
         state: {
           count: 0,
           message: "Message",
+          nome: "Maria",
           frutas: [
             'Maça',
             'Banana',
