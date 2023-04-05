@@ -8,6 +8,7 @@
     <div id="app">
       <p>Count: { count }</p>
       <button @click="increment">Increment</button>
+      <h1>{message}</h1>
     </div>
 
     <script src="../build/flex.min.js"></script>
@@ -15,7 +16,8 @@
       const myApp = FlexInstance.create({
         el: '#app',
         state: {
-          count: 0
+          count: 0,
+          message: "Message"
         },
         methods: {
           increment() {
@@ -23,6 +25,8 @@
           }
         }
       }).getInstance();
+
+      myApp.state.message = 'I love ❤️ Flex'; 
 
     </script>
   </body>
