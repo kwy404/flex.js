@@ -156,12 +156,12 @@ const FlexInstance = (function() {
       /* Loops through elements with *each="variable in array" attribute and replaces [variable] with corresponding value in array */
       eachLoop(element, state, targetElement) {
         if(targetElement){
-          const eachAttr = element.getAttribute('*each');
+          const eachAttr = element.getAttribute(ATTR_EACH);
           if (eachAttr) {
             const [itemVar, arrayVar] = eachAttr.split(' in ');
             const array = state[arrayVar];
             if (!Array.isArray(array)) return;
-            element.removeAttribute('*each')
+            element.removeAttribute(ATTR_EACH)
             const parentElement = element.parentElement;
             const cloneNode = element.cloneNode(true);
             element.innerHTML = '';
