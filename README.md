@@ -3,7 +3,7 @@ Esta é uma implementação JavaScript de um objeto singleton que vincula dados 
 
 Como funciona O objeto FlexInstance cria um objeto Flex que manipula a vinculação de dados aos elementos no DOM. O objeto Flex é criado usando uma função createInstance que recebe um objeto de opções com as seguintes propriedades:
 
-el: o seletor para o elemento raiz ao qual os dados devem ser vinculados (o padrão é 'html'). state: um objeto contendo o estado inicial da aplicação. métodos: um objeto contendo métodos que podem ser chamados por ligações no DOM. O objeto Flex usa duas funções auxiliares:
+root: o seletor para o elemento raiz ao qual os dados devem ser vinculados (o padrão é 'html'). state: um objeto contendo o estado inicial da aplicação. métodos: um objeto contendo métodos que podem ser chamados por ligações no DOM. O objeto Flex usa duas funções auxiliares:
 
 parseText: uma função que analisa o texto e encontra ligações usando a sintaxe {variableName}. parseHTML: uma função que analisa o HTML e retorna o primeiro elemento encontrado. O objeto Flex cria um objeto proxy para observar as alterações no estado e encontra elementos no DOM e vincula dados a eles usando o método startApp. O método updateElements atualiza os elementos que dependem das propriedades de estado alteradas. O método setupMethods configura métodos no objeto Flex que podem ser chamados por ligações no DOM.
 
@@ -41,7 +41,6 @@ Aqui está um exemplo de uso:
       }).getInstance();
 
       myApp.state.message = 'I love ❤️ Flex'; 
-
     </script>
   </body>
 </html> 
