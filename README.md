@@ -29,14 +29,16 @@ Here is an example usage:
     <div id="app">
       <p>Count: { count }</p>
       <button @click="increment">Increment</button>
+      <h1>{message}</h1>
     </div>
 
     <script src="../build/flex.min.js"></script>
     <script>
       const myApp = FlexInstance.create({
-        el: '#app',
+        root: '#app',
         state: {
-          count: 0
+          count: 0,
+          message: "Message"
         },
         methods: {
           increment() {
@@ -45,9 +47,11 @@ Here is an example usage:
         }
       }).getInstance();
 
+      myApp.state.message = 'I love ❤️ Flex'; 
+
     </script>
   </body>
-</html>
+</html> 
 ```
 License
 This implementation is licensed under the MIT license.
