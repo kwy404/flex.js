@@ -153,7 +153,6 @@ const FlexInstance = (function() {
         });
       }
 
-
       /* Loops through elements with *each="variable in array" attribute and replaces [variable] with corresponding value in array */
       eachLoop(element, state, targetElement) {
         if(targetElement){
@@ -182,7 +181,6 @@ const FlexInstance = (function() {
             this.state = this.createStateProxy(state);
           }
         }
-        
       }
 
       /* Set up methods on the Flex object */
