@@ -10,31 +10,29 @@ function eachLoop(element, state, targetElement) {
       const parentElement = element.parentElement;
       const cloneNode = element.cloneNode(true);
       element.innerHTML = '';
+      const element_ = document.createElement(parentElement.tagName).cloneNode(true);
       array.forEach((item) => {
         const newElement = cloneNode.cloneNode(true);
         newElement.innerHTML = newElement.innerHTML.replace(new RegExp(`\\[\\s*${itemVar}\\s*\\]`, 'g'), item);
-        element.appendChild(newElement);
+        element_.appendChild(newElement);
       });
-        const tokens = parseText().text(element.innerHTML);
+        const tokens = parseText().text(element_.innerHTML);
+        let novoHTML = ""
         if (tokens) {
           tokens.forEach((token) => {
             if (token.key) {
-              element.innerHTML = element.innerHTML.replace(
+              novoHTML = element_.innerHTML.replaceAll(
                 token.text,
-                this.state[token.key]
+                state[token.key]
               );
             }
           })
         }
-        parentElement.replaceChild(element, element);
+        targetElement.innerHTML = novoHTML
         if (element.innerHTML !== targetElement.innerHTML) {
-          targetElement.innerHTML = element.innerHTML;
+          targetElement.innerHTML = novoHTML;
         }
         return;
-      }
-      Array.from(element.children).forEach((child) => this.eachLoop(child, state));
-      if (JSON.stringify(state) !== JSON.stringify(this.state)) {
-        this.state = this.createStateProxy(state);
       }
     }
   }

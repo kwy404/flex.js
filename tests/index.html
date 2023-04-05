@@ -10,13 +10,14 @@
       <button @click="increment">Increment - atual {count}</button>
       <h1>{message}</h1>
       <input id="fruta"/>
-      <button @click="addFruta">Adiconar fruta</button>
+      <button @click="addFruta">Adicionar fruta</button>
       <ul>
         <li *each="fruta in frutas">
-          {nome} pediu para comprar esta fruta [ fruta ]
+          {nome} pediu para comprar esta fruta [fruta]
         </li>
       </ul>
-      
+      <br/>
+      <button @click="addFruta">Adicionar fruta2</button>
     </div>
 
     <script src="../build/flex.min.js"></script>
@@ -38,6 +39,7 @@
             this.state.count++
           },
           addFruta(){
+            console.log('Oi')
             if(document.querySelector('#fruta').value.trim().length > 0){
               this.state.frutas.push(document.querySelector('#fruta').value)
               document.querySelector('#fruta').value = ""

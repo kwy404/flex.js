@@ -19,6 +19,7 @@ const FlexInstance = (function() {
         );
         this.cloneNode = parseHTML(this.root);
         this.startApp();
+        this.methods = methods;
         this.setupMethods({
           methods
         });
@@ -117,7 +118,6 @@ const FlexInstance = (function() {
         if (this.state === this.prevState) {
           return;
         }
-
         const elActual = document.querySelectorAll(`${this.root} *`);
         const elClone = this.cloneNode.cloneNode(true);
 
@@ -160,10 +160,10 @@ const FlexInstance = (function() {
       setupMethods({
         methods = {}
       }) {
-        const clickElems = Array.from(document.querySelectorAll(`${this.root} *`));
-        const nodeOld = Array.from(document.querySelectorAll(`${this.root} > *`)); // correção aqui
+        const elClone = this.cloneNode.cloneNode(true);
+        const clickElems = document.querySelectorAll(`${this.root} *`)
         const flex = this;
-        nodeOld.forEach((elem, index) => {
+        Array.from(elClone.querySelectorAll(`${this.root} *`)).forEach((elem, index) => {
           const attrs = elem.attributes;
           for (let i = 0; i < attrs.length; i++) {
             const attr = attrs[i];
