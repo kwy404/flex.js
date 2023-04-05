@@ -5,10 +5,18 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
     uglify: {
       options: {
-        banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
+        banner: '/*!\n' +
+        ' * <%= pkg.name %> <%= pkg.version %>\n' +
+        ' * <%= pkg.description %>\n' +
+        ' *\n' +
+        ' * Author: <%= pkg.author %>\n' +
+        ' * Licensed under <%= pkg.license %> (https://opensource.org/licenses/<%= pkg.license %>)\n' +
+        ' *\n' +
+        ' * Date: <%= grunt.template.today("yyyy-mm-dd") %>\n' +
+        ' */\n'
       },
       build: {
-        src: 'src/*.js',
+        src: 'src/**/*.js',
         dest: 'build/<%= pkg.name %>.min.js'
       }
     }

@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "kaway",
   "license": "ISC",
   "dependencies": {
     "compression": "^1.7.4",

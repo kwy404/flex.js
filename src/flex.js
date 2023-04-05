@@ -134,6 +134,7 @@ const FlexInstance = (function() {
       return {
         getInstance: function() {
           if (!instance) {
+            flex.console.warn('Instância do Flex foi criada com sucesso.', {debug: false}) // Será exibido no console com stack trace porque debug é true
             instance = new Flex();
           }
           return instance;
