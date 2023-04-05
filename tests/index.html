@@ -9,6 +9,11 @@
       <p>Count: { count }</p>
       <button @click="increment">Increment - atual {count}</button>
       <h1>{message}</h1>
+      <ul>
+        <li *each="fruta in frutas">
+          [ fruta ] comprar isso com [ fruta ]
+        </li>
+      </ul>
     </div>
 
     <script src="../build/flex.min.js"></script>
@@ -17,7 +22,13 @@
         root: '#app',
         state: {
           count: 0,
-          message: "Message"
+          message: "Message",
+          frutas: [
+            'Maça',
+            'Banana',
+            'Melancia'
+          ],
+          arroz: 'Arroz'
         },
         methods: {
           increment() {

@@ -23,14 +23,39 @@ const FlexInstance = (function() {
   
         /* Creates a Proxy object to observe changes to state */
         createStateProxy(state) {
-          return new Proxy(state, {
-            set: (obj, prop, value) => {
-              obj[prop] = value;
-              this.updateElements(prop);
-              return true;
-            },
-          });
-        }
+          const observe = (value) => {
+            if (Array.isArray(value)) {
+              return new Proxy(value, {
+                set: (obj, prop, newValue) => {
+                  obj[prop] = newValue;
+                  this.updateElements();
+                  return true;
+                },
+                // Adicione esse trap para observar mudanças no tamanho do array
+                // e garantir que a atualização seja disparada quando um novo item é adicionado
+                defineProperty: (obj, prop, descriptor) => {
+                  const result = Reflect.defineProperty(obj, prop, descriptor);
+                  if (prop === 'length') {
+                    this.updateElements();
+                  }
+                  return result;
+                }
+              });
+            } else if (typeof value === 'object' && value !== null) {
+              return new Proxy(value, {
+                set: (obj, prop, newValue) => {
+                  obj[prop] = newValue;
+                  this.updateElements();
+                  return true;
+                }
+              });
+            } else {
+              return value;
+            }
+          };
+        
+          return observe(state);
+        }        
   
         /* Find elements in the DOM and bind data */
         startApp() {
@@ -65,13 +90,16 @@ const FlexInstance = (function() {
               });
             }
           });
+          this.rootements.forEach(element => {
+            this.eachLoop(element, this.state)
+          })
         }
   
         /* Updates elements that depend on changed state properties */
-        updateElements(prop) {
+        updateElements() {
           const elActual = document.querySelectorAll(`${this.root} *`);
           const elClone = this.cloneNode.cloneNode(true);
-  
+
           Array.from(elClone.querySelectorAll('*')).forEach((element, index) => {
             const targetElement = elActual[index];
             if (element.nodeType === Node.TEXT_NODE) {
@@ -102,7 +130,28 @@ const FlexInstance = (function() {
               });
             }
           });
+          
         }
+
+        /* Loops through elements with *each="variable in array" attribute and replaces [variable] with corresponding value in array */
+        eachLoop(element, state) {
+          const eachAttr = element.getAttribute('*each');
+          if (eachAttr) {
+            const [itemVar, arrayVar] = eachAttr.split(' in ');
+            const array = state[arrayVar];
+            if (!Array.isArray(array)) return;
+            element.removeAttribute('*each');
+            array.forEach((item) => {
+              const newElement = element.cloneNode(true);
+              newElement.innerHTML = newElement.innerHTML.replace(new RegExp(`\\[\\s*${itemVar}\\s*\\]`, 'g'), item);
+              element.insertAdjacentElement('beforebegin', newElement);
+            });
+            element.remove();
+          } else {
+            Array.from(element.children).forEach((child) => this.eachLoop(child, state));
+          }
+        }
+
         /* Set up methods on the Flex object */
         setupMethods({
           methods = {}

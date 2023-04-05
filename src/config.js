@@ -1,0 +1,1 @@
+const ATTR_EACH = "*each";
