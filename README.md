@@ -9,7 +9,7 @@ state: an object containing the initial state of the application.
 methods: an object containing methods that can be called by bindings in the DOM.
 The Flex object uses two helper functions:
 
-parseText: a function that parses text and finds bindings using the syntax {{variableName}}.
+parseText: a function that parses text and finds bindings using the syntax {variableName}.
 parseHTML: a function that parses HTML and returns the first element found.
 The Flex object creates a proxy object to observe changes to the state, and it finds elements in the DOM and binds data to them using the startApp method. The updateElements method updates elements that depend on changed state properties. The setupMethods method sets up methods on the Flex object that can be called by bindings in the DOM.
 
