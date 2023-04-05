@@ -23,36 +23,28 @@ Here is an example usage:
 <html>
   <head>
     <meta charset="UTF-8" />
-    <title>Flex Example</title>
+    <title>Flex.js Example</title>
   </head>
   <body>
     <div id="app">
-        <h1>{ title }</h1>
-        <h2>{ message }</h2>
-        <button @click="chanceTitle">Chance Title</button>
-    </div>     
+      <p>Count: { count }</p>
+      <button @click="increment">Increment</button>
+    </div>
+
     <script src="../build/flex.min.js"></script>
     <script>
-        const myApp = FlexInstance.create({
-            el: '#app',
-            state: {
-                title: 'My Application',
-                message: 'Message'
-            },
-            methods: {
-                logMessage: function() {
-                    console.log(this.state.message);
-                },
-                chanceTitle(){
-                    this.state.title = "Hello, Flex"
-                }
-            }
-        });
+      const myApp = FlexInstance.create({
+        el: '#app',
+        state: {
+          count: 0
+        },
+        methods: {
+          increment() {
+            this.state.count++
+          }
+        }
+      }).getInstance();
 
-        //Chance title
-        myApp.getInstance().state.title = 'New Title'; // Changes the title in the DOM
-        // Changes the message in the DOM
-        myApp.getInstance().state.message = 'I love ❤️ Flex'; 
     </script>
   </body>
 </html>

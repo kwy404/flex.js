@@ -1,4 +1,3 @@
-/* Singleton implementation */
 const FlexInstance = (function() {
     let instance;
 
