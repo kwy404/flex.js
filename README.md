@@ -1,22 +1,15 @@
 # Flex - Singleton Implementation
-This is a JavaScript implementation of a singleton object that binds data to elements in the DOM using a simple syntax.
+Esta é uma implementação JavaScript de um objeto singleton que vincula dados a elementos no DOM usando uma sintaxe simples.
 
-How it works
-The FlexInstance object creates a Flex object that handles data binding to elements in the DOM. The Flex object is created using a createInstance function that takes an options object with the following properties:
+Como funciona O objeto FlexInstance cria um objeto Flex que manipula a vinculação de dados aos elementos no DOM. O objeto Flex é criado usando uma função createInstance que recebe um objeto de opções com as seguintes propriedades:
 
-el: the selector for the root element to which data should be bound (default is 'html').
-state: an object containing the initial state of the application.
-methods: an object containing methods that can be called by bindings in the DOM.
-The Flex object uses two helper functions:
+el: o seletor para o elemento raiz ao qual os dados devem ser vinculados (o padrão é 'html'). state: um objeto contendo o estado inicial da aplicação. métodos: um objeto contendo métodos que podem ser chamados por ligações no DOM. O objeto Flex usa duas funções auxiliares:
 
-parseText: a function that parses text and finds bindings using the syntax {variableName}.
-parseHTML: a function that parses HTML and returns the first element found.
-The Flex object creates a proxy object to observe changes to the state, and it finds elements in the DOM and binds data to them using the startApp method. The updateElements method updates elements that depend on changed state properties. The setupMethods method sets up methods on the Flex object that can be called by bindings in the DOM.
+parseText: uma função que analisa o texto e encontra ligações usando a sintaxe {variableName}. parseHTML: uma função que analisa o HTML e retorna o primeiro elemento encontrado. O objeto Flex cria um objeto proxy para observar as alterações no estado e encontra elementos no DOM e vincula dados a eles usando o método startApp. O método updateElements atualiza os elementos que dependem das propriedades de estado alteradas. O método setupMethods configura métodos no objeto Flex que podem ser chamados por ligações no DOM.
 
-How to use
-To use FlexInstance, simply create a Flex object using the getInstance method of the FlexInstance singleton. You can then use the state and methods properties of the Flex object to bind data and create methods for your application.
+Como usar Para usar o FlexInstance, basta criar um objeto Flex usando o método getInstance do singleton FlexInstance. Você pode usar as propriedades de estado e métodos do objeto Flex para vincular dados e criar métodos para seu aplicativo.
 
-Here is an example usage:
+Aqui está um exemplo de uso:
 
 ```html
 <!DOCTYPE html>
