@@ -7,7 +7,7 @@ A classe Flex tem os seguintes métodos:
 # Constructor
 O construtor da classe recebe um objeto com as seguintes propriedades:
 
-`root`: O seletor CSS para o elemento raiz do DOM. Por padrão, é definido como 'html'.
+`root`: O seletor para o elemento raiz do DOM. Por padrão, é definido como 'html'.
 `state`: Um objeto que contém o estado inicial do aplicativo. Cada propriedade deste objeto é uma chave que representa o nome da variável e o valor é o valor `inicial`. Este estado é mantido em um objeto Proxy para observar mudanças nas propriedades.
 `methods`: Um objeto que contém métodos que podem ser chamados a partir do DOM em resposta a eventos de usuário, como cliques em botões. Cada propriedade deste `objeto` é uma chave que representa o nome do método e o valor é uma função.
 `createStateProxy`
