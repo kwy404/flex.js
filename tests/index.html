@@ -9,11 +9,11 @@
       <p>Count: { count }</p>
       <button @click="increment">Increment - atual {count}</button>
       <h1>{message}</h1>
-      <input id="fruta"></input>
+      <input id="fruta"/>
       <button @click="addFruta">Adiconar fruta</button>
       <ul>
         <li *each="fruta in frutas">
-          [ fruta ] comprar isso
+          [ fruta ] comprar isso {count}
         </li>
       </ul>
       
@@ -21,7 +21,7 @@
 
     <script src="../build/flex.min.js"></script>
     <script>
-      const myApp = FlexInstance.create({
+      const app = FlexInstance.create({
         root: '#app',
         state: {
           count: 0,
@@ -45,7 +45,7 @@
         }
       }).getInstance();
 
-      myApp.state.message = 'I love ❤️ Flex'; 
+      app.state.message = 'I love ❤️ Flex'; 
 
       //Não está sendo chamado o proxy e nem observe, não atualiza nada
     </script>

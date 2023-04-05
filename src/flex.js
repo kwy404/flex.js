@@ -9,6 +9,7 @@ const FlexInstance = (function() {
     class Flex {
       constructor() {
         this.eachLoop = eachLoop
+        this.ifCondition = ifCondition
         this.parseText = parseText();
         this.root = root;
         this.state = this.createStateProxy(state);
@@ -108,6 +109,7 @@ const FlexInstance = (function() {
         });
         this.rootements.forEach((element, index) => {
           this.eachLoop(element, this.state, this.rootements[index])
+          this.ifCondition(element, this.state, this.rootements[index])
         })
       }
 
