@@ -12,7 +12,7 @@
 - *state*: Um objeto que contém o estado inicial do aplicativo. Cada propriedade deste objeto é uma chave que representa o nome da variável e o valor é o valor inicial. Este estado é mantido em um objeto Proxy para observar mudanças nas propriedades.
 - *methods*: Um objeto que contém métodos que podem ser chamados a partir do DOM em resposta a eventos de usuário, como cliques em botões. Cada propriedade deste objeto é uma chave que representa o nome do método e o valor é uma função.
 - *createStateProxy*
-- Este método cria um objeto Proxy que é usado para observar mudanças nas propriedades do estado. Quando uma propriedade é atualizada, todos os elementos no DOM que dependem dessa propriedade serão atualizados automaticamente.
+  - Este método cria um objeto Proxy que é usado para observar mudanças nas propriedades do estado. Quando uma propriedade é atualizada, todos os elementos no DOM que dependem dessa propriedade serão atualizados automaticamente.
 
 ## startApp
 ###### Este método encontra todos os elementos no DOM que têm ligações de dados com o estado e atualiza seu conteúdo. As ligações de dados são encontradas no conteúdo de texto desses elementos, por meio de uma expressão regular que procura por chaves entre chaves ({...}). Quando uma chave é encontrada, seu valor correspondente é procurado no objeto de estado e substituído na string original.
