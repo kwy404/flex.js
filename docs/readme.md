@@ -24,7 +24,7 @@
 ###### Este método é usado para configurar a interação do usuário com o aplicativo. Ele encontra todos os elementos no DOM que têm atributos que começam com o caractere "@" e adiciona um ouvinte de evento para cada um deles. Quando o evento ocorre, o método correspondente é chamado no objeto methods especificado.
 
 ## getInstance
-###### O método getInstance é usado para criar uma instância única da classe Flex. Se uma instância já foi criada, ele retorna essa instância em vez de criar uma nova. Isso garante que haja apenas uma instância do objeto Flex para todo o aplicativo.O método getInstance é usado para criar uma instância única da classe Flex. Se uma instância já foi criada, ele retorna essa instância em vez de criar uma nova. Isso garante que haja apenas uma instância do objeto Flex para todo o aplicativo.
+###### O método getInstance é usado para criar uma instância única da classe Flex. Se uma instância já foi criada, ele retorna essa instância em vez de criar uma nova. Isso garante que haja apenas uma instância do objeto Flex para todo o aplicativo.
 
 ###### O método create é exposto publicamente para permitir a criação de instâncias separadas do objeto Flex, se necessário. Ele recebe um objeto com as mesmas propriedades do construtor da classe Flex.
 
