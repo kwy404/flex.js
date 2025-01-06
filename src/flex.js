@@ -1,31 +1,24 @@
-const FlexInstance = (function() {
+const FlexInstance = (function () {
   let instance;
 
-  function createInstance({
-    root = 'html',
-    state = {},
-    methods = {}
-  }) {
+  function createInstance({ root = 'html', state = {}, methods = {} }) {
     class Flex {
       constructor() {
-        this.eachLoop = eachLoop
-        this.ifCondition = ifCondition
+        this.eachLoop = eachLoop;
+        this.ifCondition = ifCondition;
         this.parseText = parseText();
         this.root = root;
         this.state = this.createStateProxy(state);
-        this.prevState = {}
-        this.rootements = Array.from(document.querySelectorAll(`${this.root} *`)).filter(
-          element => element.childNodes.length && element.textContent.trim() !== ""
+        this.prevState = {};
+        this.rootElements = Array.from(document.querySelectorAll(`${this.root} *`)).filter(
+          (element) => element.childNodes.length && element.textContent.trim() !== ""
         );
         this.cloneNode = parseHTML(this.root);
         this.startApp();
         this.methods = methods;
-        this.setupMethods({
-          methods
-        });
+        this.setupMethods({ methods });
       }
 
-      /* Creates a Proxy object to observe changes to state */
       createStateProxy(state) {
         const observe = (value) => {
           if (Array.isArray(value)) {
@@ -46,7 +39,7 @@ const FlexInstance = (function() {
                 const result = Reflect.deleteProperty(obj, prop);
                 this.updateElements();
                 return result;
-              }
+              },
             });
           } else if (typeof value === 'object' && value !== null) {
             const newObject = {};
@@ -63,21 +56,18 @@ const FlexInstance = (function() {
                 const result = Reflect.deleteProperty(obj, prop);
                 this.updateElements();
                 return result;
-              }
+              },
             });
           } else {
             return value;
           }
         };
 
-        const proxyState = observe(state);
-
-        return proxyState;
+        return observe(state);
       }
 
-      /* Find elements in the DOM and bind data */
       startApp() {
-        this.rootements.forEach((element, index) => {
+        this.rootElements.forEach((element, index) => {
           if (element.nodeType === Node.TEXT_NODE) {
             const tokens = this.parseText.text(element.textContent);
             if (tokens) {
@@ -108,10 +98,10 @@ const FlexInstance = (function() {
             });
           }
         });
-        this.rootements.forEach((element, index) => {
-          this.eachLoop(element, this.state, this.rootements[index])
-          this.ifCondition(element, this.state, this.rootements[index])
-        })
+        this.rootElements.forEach((element, index) => {
+          this.eachLoop(element, this.state, this.rootElements[index], this);
+          this.ifCondition(element, this.state, this.rootElements[index]);
+        });
       }
 
       updateElements() {
@@ -123,8 +113,8 @@ const FlexInstance = (function() {
 
         Array.from(elClone.querySelectorAll('*')).forEach((element, indexElem) => {
           const targetElement = elActual[indexElem];
-          if(targetElement){
-            this.eachLoop(element, this.state, targetElement)
+          if (targetElement) {
+            this.eachLoop(element, this.state, targetElement, this);
           }
           if (element.nodeType === Node.TEXT_NODE) {
             const tokens = this.parseText.text(element.textContent);
@@ -156,12 +146,9 @@ const FlexInstance = (function() {
         });
       }
 
-      /* Set up methods on the Flex object */
-      setupMethods({
-        methods = {}
-      }) {
+      setupMethods({ methods = {} }) {
         const elClone = this.cloneNode.cloneNode(true);
-        const clickElems = document.querySelectorAll(`${this.root} *`)
+        const clickElems = document.querySelectorAll(`${this.root} *`);
         const flex = this;
         Array.from(elClone.querySelectorAll(`${this.root} *`)).forEach((elem, index) => {
           const attrs = elem.attributes;
@@ -170,14 +157,31 @@ const FlexInstance = (function() {
             const methodName = attr.name;
             const attrMethod = methodName.replace('@', '');
             if (methodName && methodName[0] === '@') {
-              const methodName_ = elem.getAttribute(methodName);
-              clickElems[index].addEventListener(attrMethod, function() {
+              let methodCall = elem.getAttribute(methodName);
+              const [methodName_, ...params] = methodCall.replace(/[()]/g, '').split(',').map(param => param.trim());
+              clickElems[index].addEventListener(attrMethod, function (event) {
                 if (typeof methods[methodName_] === 'function') {
-                  methods[methodName_].call(flex);
+                  const methodParams = params.map(param => {
+                    if (/^\d+$/.test(param)) {
+                      return Number(param);
+                    } else if (param[0] === "'" && param[param.length - 1] === "'") {
+                      return param.slice(1, -1);
+                    } else if (param === '$event') {
+                      return event;
+                    } else if (param.startsWith('[') && param.endsWith(']')) {
+                      // Handle parameters like [task.id]
+                      param = param.slice(1, -1).trim();
+                      return param.split('.').reduce((acc, part) => acc && acc[part], this);
+                    } else if (param.includes('.')) {
+                      return param.split('.').reduce((acc, part) => acc[part], flex.state);
+                    } else {
+                      return flex.state[param];
+                    }
+                  });
+                  methods[methodName_].apply(flex, methodParams);
                 }
               });
               elem.removeAttribute(methodName);
-              elem.cloneNode(true);
             }
           }
         });
@@ -185,11 +189,11 @@ const FlexInstance = (function() {
     }
 
     return {
-      getInstance: function() {
+      getInstance: function () {
         if (!instance) {
-          flex.console.warn('Instância do Flex foi criada com sucesso.', {
+          console.warn('Instância do Flex foi criada com sucesso.', {
             debug: false
-          }) // Será exibido no console com stack trace porque debug é true
+          });
           instance = new Flex();
         }
         return instance;
@@ -198,7 +202,7 @@ const FlexInstance = (function() {
   }
 
   return {
-    create: function(options) {
+    create: function (options) {
       return createInstance(options);
     }
   };

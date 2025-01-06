@@ -1,61 +1,63 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>Flex.js Example</title>
-  </head>
-  <body>
-    <div id="app">
-      <p>Count: { count }</p>
-      <button @click="increment">Increment - atual {count}</button>
-      <h1>{message}</h1>
-      <input id="frutaNome" placeholder="Nome da Fruta"/>
-      <input id="frutaQuantidade" type="number" placeholder="Quantidade"/>
-      <button @click="addFruta">Adicionar fruta</button>
-      <ul>
-        <li *each="fruta in frutas">
-          {nome} pediu para comprar [fruta.nome] - Quantidade: [fruta.quantidade]
-        </li>
-      </ul>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Exemplo Todo List com Flex.js e TailwindCSS</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 flex items-center justify-center h-screen">
+  <div id="app" class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+    <h1 class="text-2xl font-bold mb-4">{message}</h1>
+    <div class="mb-4">
+      <input id="taskDescription" placeholder="Descrição da Tarefa" class="border p-2 mb-2 w-full" />
+      <button @click="addTask()" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700 w-full">
+        Adicionar Tarefa
+      </button>
     </div>
+    <ul class="list-disc pl-5">
+      <li each="task in tasks" class="mb-2 flex justify-between items-center">
+        <span>[task.description]</span>
+        <button @click="removeTask(task.id)" class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-700">
+          Remover
+        </button>
+      </li>
+    </ul>
+  </div>
 
-    <script src="../build/flex.min.js"></script>
-    <script>
+  <script src="../build/flex.min.js"></script>
+  <script>
+    const app = FlexInstance.create({
+      root: '#app',
+      state: {
+        message: 'Minha Lista de Tarefas',
+        tasks: [
+          { id: 1, description: 'Comprar leite' },
+          { id: 2, description: 'Lavar o carro' },
+          { id: 3, description: 'Estudar JavaScript' }
+        ]
+      },
+      methods: {
+        addTask() {
+          const taskDescriptionInput = document.querySelector('#taskDescription');
+          const description = taskDescriptionInput.value.trim();
 
-      const app = FlexInstance.create({
-        root: '#app',
-        state: {
-          count: 0,
-          message: "Message",
-          nome: "Maria",
-          frutas: [
-            { nome: 'Maça', quantidade: 3 },
-            { nome: 'Banana', quantidade: 5 },
-            { nome: 'Melancia', quantidade: 1 }
-          ]
+          if (description.length > 0) {
+            const newTask = {
+              id: Date.now(), // Usando timestamp como ID único
+              description
+            };
+            this.state.tasks.push(newTask);
+            taskDescriptionInput.value = "";
+            this.updateElements();
+          }
         },
-        methods: {
-          increment() {
-            this.state.count++;
-            this.update();
-          },
-          addFruta() {
-            const frutaNomeInput = document.querySelector('#frutaNome');
-            const frutaQuantidadeInput = document.querySelector('#frutaQuantidade');
-            const nome = frutaNomeInput.value.trim();
-            const quantidade = parseInt(frutaQuantidadeInput.value.trim(), 10);
-
-            if (nome.length > 0 && !isNaN(quantidade)) {
-              this.state.frutas.push({ nome, quantidade });
-              frutaNomeInput.value = "";
-              frutaQuantidadeInput.value = "";
-            }
-          },
+        removeTask(id) {
+          this.state.tasks = this.state.tasks.filter(task => task.id !== id);
+          this.updateElements();
         }
-      }).getInstance();
-
-      app.state.message = 'I love ❤️ Flex';
-      app.update();
-    </script>
-  </body>
+      }
+    }).getInstance();
+  </script>
+</body>
 </html>
