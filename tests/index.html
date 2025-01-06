@@ -9,19 +9,19 @@
       <p>Count: { count }</p>
       <button @click="increment">Increment - atual {count}</button>
       <h1>{message}</h1>
-      <input id="fruta"/>
+      <input id="frutaNome" placeholder="Nome da Fruta"/>
+      <input id="frutaQuantidade" type="number" placeholder="Quantidade"/>
       <button @click="addFruta">Adicionar fruta</button>
       <ul>
         <li *each="fruta in frutas">
-          {nome} pediu para comprar esta fruta [fruta]
+          {nome} pediu para comprar [fruta.nome] - Quantidade: [fruta.quantidade]
         </li>
       </ul>
-      <br/>
-      <button @click="addFruta">Adicionar fruta2</button>
     </div>
 
     <script src="../build/flex.min.js"></script>
     <script>
+
       const app = FlexInstance.create({
         root: '#app',
         state: {
@@ -29,28 +29,33 @@
           message: "Message",
           nome: "Maria",
           frutas: [
-            'Maça',
-            'Banana',
-            'Melancia'
+            { nome: 'Maça', quantidade: 3 },
+            { nome: 'Banana', quantidade: 5 },
+            { nome: 'Melancia', quantidade: 1 }
           ]
         },
         methods: {
           increment() {
-            this.state.count++
+            this.state.count++;
+            this.update();
           },
-          addFruta(){
-            console.log('Oi')
-            if(document.querySelector('#fruta').value.trim().length > 0){
-              this.state.frutas.push(document.querySelector('#fruta').value)
-              document.querySelector('#fruta').value = ""
+          addFruta() {
+            const frutaNomeInput = document.querySelector('#frutaNome');
+            const frutaQuantidadeInput = document.querySelector('#frutaQuantidade');
+            const nome = frutaNomeInput.value.trim();
+            const quantidade = parseInt(frutaQuantidadeInput.value.trim(), 10);
+
+            if (nome.length > 0 && !isNaN(quantidade)) {
+              this.state.frutas.push({ nome, quantidade });
+              frutaNomeInput.value = "";
+              frutaQuantidadeInput.value = "";
             }
-          }
+          },
         }
       }).getInstance();
 
-      app.state.message = 'I love ❤️ Flex'; 
-
-      //Não está sendo chamado o proxy e nem observe, não atualiza nada
+      app.state.message = 'I love ❤️ Flex';
+      app.update();
     </script>
   </body>
-</html> 
+</html>
